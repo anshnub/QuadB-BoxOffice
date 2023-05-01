@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { searchForShows } from "../api/tvmaze";
 
 const Home = () => {
-    const [searchStr,setSearchStr]=useState("")
-    
+    const [searchStr,setSearchStr]=useState("");
+    const [apiData,setApiData] = useState(null);
+    const [apiDataError,setApiDataError] = useState(null);
+
+   
 
     const onSearchInputChange = (ev) =>{
         setSearchStr(ev.target.value);
@@ -11,15 +15,35 @@ const Home = () => {
     const onSearch =async (ev) =>{
         ev.preventDefault();
 
-       const response= await fetch(`https://api.tvmaze.com/search/shows?q=${searchStr}`)
-       const body = await response.json()
+        try {
+            setApiDataError(null);
+            const result = await searchForShows(searchStr);
+            setApiData(result);
+            
+        } catch (error) {
+            setApiDataError(error);
+            
+        }
 
-       console.log(body)
        
        
-
-       // https://api.tvmaze.com/search/shows?q=boys
     };
+
+    const renderApiData = () => {
+
+        if(apiDataError){
+            return <div>Error occured : {apiDataError.message}</div>
+        }
+
+        if(apiData) {
+            return   apiData.map((data) => 
+             <div key={data.show.id} > {data.show.name}</div> 
+             )
+        }
+
+        return null;
+
+    }
 
     return(
          <div>
@@ -30,6 +54,11 @@ const Home = () => {
 
     <button type="submit" >search here</button>
     </form>
+
+    <div>
+        {renderApiData ()}
+        {/* {apiData.map(data => <div key={data.show.id} > {data.show.name}</div> )} */}
+    </div>
     
     </div>
     )
