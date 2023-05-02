@@ -1,24 +1,20 @@
 import { useState } from "react";
+import SearchForm from "../components/SearchForm";
 import { searchForShows,searchForPeople } from "../api/tvmaze";
 
 const Home = () => {
-    const [searchStr,setSearchStr]=useState("");
-    const [apiData,setApiData] = useState(null);
-    const [searchOption,setSearchOption] = useState('shows')
-    const [apiDataError,setApiDataError] = useState(null);
-
-   console.log(searchOption);
-
-    const onSearchInputChange = (ev) =>{
-        setSearchStr(ev.target.value);
-    }
-
-    const onRadioChange = (ev) =>{
-        setSearchOption(ev.target.value);
-    }
+    // const [searchStr,setSearchStr]=useState("");
     
-    const onSearch =async (ev) =>{
-        ev.preventDefault();
+    // const [searchOption,setSearchOption] = useState('shows')
+    const [apiDataError,setApiDataError] = useState(null);
+    const [apiData,setApiData] = useState(null);
+
+   
+
+   
+    
+    const onSearch =async ({q,searchOption}) =>{
+        
 
         try {
 
@@ -26,11 +22,11 @@ const Home = () => {
             setApiDataError(null);
 
             if(searchOption==='shows'){
-            const result = await searchForShows(searchStr);
+            const result = await searchForShows(q);
             setApiData(result);
             }
             else{
-                const result = await searchForPeople(searchStr);
+                const result = await searchForPeople(q);
             setApiData(result);
             }
             
@@ -64,6 +60,8 @@ const Home = () => {
     return(
          <div>
 
+         <SearchForm onSearch={onSearch} />
+{/* 
     <form onSubmit={onSearch}>  
 
     <input type="text" value={searchStr} onChange={onSearchInputChange} />
@@ -79,11 +77,11 @@ const Home = () => {
     </label>
 
     <button type="submit" >search here</button>
-    </form>
+    </form> */}
 
     <div>
         {renderApiData ()}
-        {/* {apiData.map(data => <div key={data.show.id} > {data.show.name}</div> )} */}
+        
     </div>
     
     </div>
