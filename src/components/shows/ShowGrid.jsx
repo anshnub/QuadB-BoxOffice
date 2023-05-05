@@ -1,42 +1,40 @@
+
+import { useStarredShows } from "../../lib/useStarredShows";
 import ShowCard from "./ShowCard"
-import { useReducer,useEffect } from "react"
 
-const usePersistedReducer = (reducer,intialState,localStorageKey)=>{
-    const [ state,dispatch] = useReducer(reducer,intialState, (initial)=>{
+// const usePersistedReducer = (reducer,intialState,localStorageKey)=>{
+//     const [ state,dispatch] = useReducer(reducer,intialState, initial=>{
 
-        const persistedValue = localStorage.getItem(localStorageKey)
+//         const persistedValue = localStorage.getItem(localStorageKey)
 
-        return persistedValue? JSON.parse(persistedValue):initial;
+//         return persistedValue? JSON.parse(persistedValue):initial;
 
-    })
+//     })
 
-    useEffect(()=> {
-        localStorage.setItem(localStorage,JSON.stringify(state))
-    }, [state,localStorageKey] )
+//     useEffect(()=> {
+//         localStorage.setItem(localStorage,JSON.stringify(state))
+//     }, [state,localStorageKey] )
 
-    return [state,dispatch];
+//     return [state,dispatch];
 
 
-}
+// }
 
-const starredShowsReducer = (currentStarred,action) =>{
+// const starredShowsReducer = (currentStarred,action) =>{
 
-    switch(action.type){
-        case 'STAR' : return currentStarred.concat(action.showId)
-        case 'UNSTAR' : return currentStarred.filter((showId)=> showId !== action.showId  )
-        default :
-        return currentStarred;
-    }
+//     switch(action.type){
+//         case 'STAR' : return currentStarred.concat(action.showId)
+//         case 'UNSTAR' : return currentStarred.filter((showId)=> showId !== action.showId  )
+//         default :
+//         return currentStarred;
+//     }
 
-}
+// }
 
 
 const ShowGrid = ({shows}) =>{
-   const[starredShows, dispatchStarred]= usePersistedReducer(
-    starredShowsReducer,
-    [],
-    'starredShows'
-    );
+
+    const [starredShows,dispatchStarred] =useStarredShows()
    
    
    
@@ -55,6 +53,7 @@ const ShowGrid = ({shows}) =>{
            {shows.map(data => <ShowCard key={data.show.id} id={data.show.id} name={data.show.name} image={data.show.image ? data.show.image.medium : '/not-found-image.png'} 
             summary={data.show.summary}
             onStarMeClick={onStarMeClick}
+            isStarred={starredShows.includes(data.show.id)}
            /> )}
         </div>
     )
