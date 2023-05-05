@@ -13,7 +13,8 @@ const Home = () => {
         queryKey: ['search', filter],
         queryFn: () => filter.searchOption==='shows' ? searchForShows(filter.q):searchForPeople(filter.q),
         // ⬇️ disabled as long as the filter is empty
-        enabled: !!filter
+        enabled: !!filter,
+        refetchOnWindowFocus:false,
         
     })
     // const [searchStr,setSearchStr]=useState("");
