@@ -1,32 +1,23 @@
+import { SearchCard, SearchImgWrapper } from '../common/SearchCard';
 
+const ActorCard = ({ name, image, gender, country, birthday, deathday }) => {
+  return (
+    <SearchCard>
+      <SearchImgWrapper>
+        <img src={image} alt={name} />
+      </SearchImgWrapper>
 
-const ActorCard = ({name,image,gender,country,birthday,deathday}) =>{
+      <h1>
+        {name} {!!gender && `(${gender})`}
+      </h1>
 
-    // const summaryStripped = summary 
-    // ? summary.split(' ').slice(0,10).join(' ').replace(/<.+?>/g, '')
-    // :'No description';
+      <p>{country ? `Comes from ${country}` : 'No country known'}</p>
 
-    return (
-        <div>
+      {!!birthday && <p>Born {birthday}</p>}
 
-            <div>
+      <p>{deathday ? `Died ${deathday}` : 'Alive'}</p>
+    </SearchCard>
+  );
+};
 
-            
- 
-           <img src={image} alt={name}/>
-           </div>
-           <h1>{name} {gender && `(${gender})`} </h1>
-           {/* <p>{summaryStripped}</p> */}
-           <p>{country ? `Comes from ${country}` : 'No country Known'}</p>
-
-           {!!birthday &&  <p>Born {birthday} </p>  }
-           <p>{deathday ?`Died ${deathday}` : 'Alive' }</p>
-           <div>
-          
-            <button type="button"> star me </button>
-           </div>
-        </div>
-    )
-}
-
-export default ActorCard
+export default ActorCard;
