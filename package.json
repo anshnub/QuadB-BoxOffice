@@ -2,7 +2,7 @@
   "name": "box-office",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://shelooks16.github.io/box-office-app",
+  "homepage": "https://anshnub.github.io/box-office",
   "dependencies": {
     "@tanstack/react-query": "^4.16.1",
     "gh-pages": "^4.0.0",
